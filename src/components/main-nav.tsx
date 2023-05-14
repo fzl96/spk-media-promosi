@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useSelectedLayoutSegment } from "next/navigation";
+import { useSelectedLayoutSegment, usePathname } from "next/navigation";
 
 import { SidebarNavItem } from "@/types";
 import { cn } from "@/lib/utils";
@@ -15,8 +15,13 @@ interface MainNavProps {
 }
 
 export function MainNav({ items, children }: MainNavProps) {
+  const pathname = usePathname();
   const segment = useSelectedLayoutSegment();
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    setShowMobileMenu(false);
+  }, [pathname]);
 
   return (
     <div className="flex gap-6 md:gap-10">
