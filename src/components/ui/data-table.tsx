@@ -43,6 +43,7 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   deleteEndpoint?: string;
+  selectable?: boolean;
 }
 
 interface WithId {
@@ -53,6 +54,7 @@ export function DataTable<TData extends WithId, TValue>({
   columns,
   data,
   deleteEndpoint,
+  selectable = true,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -140,21 +142,23 @@ export function DataTable<TData extends WithId, TValue>({
       </div>{" "}
       <div className="flex items-center justify-between space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground items-center">
-          <div className="flex gap-2 items-center">
-            <div>
-              {table.getFilteredSelectedRowModel().rows.length} of{" "}
-              {table.getFilteredRowModel().rows.length} row(s) selected.
+          {selectable && (
+            <div className="flex gap-2 items-center">
+              <div>
+                {table.getFilteredSelectedRowModel().rows.length} of{" "}
+                {table.getFilteredRowModel().rows.length} row(s) selected.
+              </div>
+              {table.getFilteredSelectedRowModel().rows.length > 0 && (
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => setShowDeleteAlert(true)}
+                >
+                  Hapus {table.getFilteredSelectedRowModel().rows.length} item
+                </Button>
+              )}
             </div>
-            {table.getFilteredSelectedRowModel().rows.length > 0 && (
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={() => setShowDeleteAlert(true)}
-              >
-                Hapus {table.getFilteredSelectedRowModel().rows.length} item
-              </Button>
-            )}
-          </div>
+          )}
           <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
             <AlertDialogContent>
               <AlertDialogHeader>

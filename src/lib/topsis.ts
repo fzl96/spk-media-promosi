@@ -196,23 +196,43 @@ export function getPositiveIdealSolution(weightedMatrix: WeightedMatrix[]): Idea
 }
 
 export function getNegativeIdealSolution(weightedMatrix: WeightedMatrix[]): IdealValue[] {
-  const numCriteria = weightedMatrix[0].weightedMatrix.length;
   const negativeIdealSolution: IdealValue[] = [];
 
-  for (let i = 0; i < numCriteria; i++) {
-    const criteriaValues = weightedMatrix.map((alternative) => alternative.weightedMatrix[i].weightedValue);
-    const criteriaType = weightedMatrix[0].weightedMatrix[i].criteriaType;
+  // Iterate through each criteria
+  for (const criteria of weightedMatrix[0].weightedMatrix) {
+    // Initialize the ideal value based on the criteria type
     let idealValue: number;
-
-    if (criteriaType.toLowerCase() === 'benefit') {
-      idealValue = Math.min(...criteriaValues);
+    if (criteria.criteriaType.toLowerCase() === 'cost') {
+      // For "Benefit" criteria, initialize with the lowest possible value
+      idealValue = Number.NEGATIVE_INFINITY;
     } else {
-      idealValue = Math.max(...criteriaValues);
+      // For "Cost" criteria, initialize with the highest possible value
+      idealValue = Number.POSITIVE_INFINITY;
     }
 
+    // Iterate through each alternative
+    for (const alternative of weightedMatrix) {
+      // Get the weighted value for the current criteria and alternative
+      const weightedValue = alternative.weightedMatrix.find((c) => c.criteriaCode === criteria.criteriaCode)?.weightedValue || 0;
+
+      // Update the ideal value based on the criteria type
+      if (criteria.criteriaType.toLowerCase() === 'cost') {
+        // For "Benefit" criteria, update if a greater value is found
+        if (weightedValue > idealValue) {
+          idealValue = weightedValue;
+        }
+      } else {
+        // For "Cost" criteria, update if a smaller value is found
+        if (weightedValue < idealValue) {
+          idealValue = weightedValue;
+        }
+      }
+    }
+
+    // Add the criteria and its positive ideal value to the result array
     negativeIdealSolution.push({
-      criteriaCode: weightedMatrix[0].weightedMatrix[i].criteriaCode,
-      criteriaName: weightedMatrix[0].weightedMatrix[i].criteriaName,
+      criteriaCode: criteria.criteriaCode,
+      criteriaName: criteria.criteriaName,
       idealValue: idealValue,
     });
   }
@@ -220,8 +240,15 @@ export function getNegativeIdealSolution(weightedMatrix: WeightedMatrix[]): Idea
   return negativeIdealSolution;
 }
 
-export function calculatePositiveDistance(weightedMatrix: WeightedMatrix[], positiveIdealSolution: IdealValue[]): number[] {
+type DistanceObject = {
+  id: string;
+  name: string;
+  distance: number;
+}
+
+export function calculatePositiveDistance(weightedMatrix: WeightedMatrix[], positiveIdealSolution: IdealValue[]){
   const distances: number[] = [];
+  const distancesObject: DistanceObject[] = []
 
   for (const alternative of weightedMatrix) {
     let distanceSquared = 0;
@@ -233,13 +260,22 @@ export function calculatePositiveDistance(weightedMatrix: WeightedMatrix[], posi
 
     const distance = Math.sqrt(distanceSquared);
     distances.push(distance);
+    distancesObject.push({
+      id: alternative.id,
+      name: alternative.name,
+      distance: roundNumber(distance)
+    })
   }
 
-  return distances;
+  return {
+    distances,
+    distancesObject
+  };
 }
 
-export function calculateNegativeDistance(weightedMatrix: WeightedMatrix[], negativeIdealSolution: IdealValue[]): number[] {
+export function calculateNegativeDistance(weightedMatrix: WeightedMatrix[], negativeIdealSolution: IdealValue[]){
   const distances: number[] = [];
+  const distancesObject: DistanceObject[] = []
 
   for (const alternative of weightedMatrix) {
     let distanceSquared = 0;
@@ -251,22 +287,50 @@ export function calculateNegativeDistance(weightedMatrix: WeightedMatrix[], nega
 
     const distance = Math.sqrt(distanceSquared);
     distances.push(distance);
+    distancesObject.push({
+      id: alternative.id,
+      name: alternative.name,
+      distance: roundNumber(distance)
+    })
   }
 
-  return distances;
+  return {
+    distances,
+    distancesObject
+  };
 }
 
-export function calculatePreferenceValues(positiveDistances: number[], negativeDistances: number[]): number[] {
-  const preferenceValues: number[] = [];
+type PreferenceObject = {
+  id: string;
+  name: string;
+  preferenceValues: number;
+};
+
+export function calculatePreferenceValues(
+  positiveDistances: DistanceObject[],
+  negativeDistances: DistanceObject[]
+): PreferenceObject[] {
+  const preferenceValues: PreferenceObject[] = [];
 
   for (let i = 0; i < positiveDistances.length; i++) {
-    const positiveDistance = positiveDistances[i];
-    const negativeDistance = negativeDistances[i];
+    const positiveDistance = positiveDistances[i].distance;
+    const negativeDistance = negativeDistances[i].distance;
     const preferenceValue = negativeDistance / (positiveDistance + negativeDistance);
-    preferenceValues.push(preferenceValue);
+    const preferenceObject: PreferenceObject = {
+      id: positiveDistances[i].id,
+      name: positiveDistances[i].name,
+      preferenceValues: preferenceValue,
+    };
+    preferenceValues.push(preferenceObject);
   }
 
   return preferenceValues;
+}
+
+
+export function roundNumber(num: number): number {
+  const roundedNum = Math.round(num * 1e9) / 1e9;
+  return roundedNum;
 }
 
 export function getTopsis(data: Alternative[]) {
@@ -288,12 +352,12 @@ export function getTopsis(data: Alternative[]) {
   const positiveIdeal = getPositiveIdealSolution(weightedMatrix);
 
   // A-
-  const negativeIdealSolution = getNegativeIdealSolution(weightedMatrix);
+  const negativeIdeal = getNegativeIdealSolution(weightedMatrix);
 
 
   const positiveDistances = calculatePositiveDistance(weightedMatrix, positiveIdeal);
-  const negativeDistances = calculateNegativeDistance(weightedMatrix, negativeIdealSolution);
-  const preferenceValues = calculatePreferenceValues(positiveDistances, negativeDistances);
+  const negativeDistances = calculateNegativeDistance(weightedMatrix, negativeIdeal);
+  const preferenceValuesSolution = calculatePreferenceValues(positiveDistances.distancesObject, negativeDistances.distancesObject);
 
   // let total = 0;
   // const nums = [73, 69, 71, 71]  
@@ -305,14 +369,38 @@ export function getTopsis(data: Alternative[]) {
     idealValue: data.idealValue,
   }));
 
+  const negativeIdealSolution = negativeIdeal.map((data) => ({
+    id: data.criteriaCode,
+    name: data.criteriaName,
+    idealValue: data.idealValue,
+  }));
+
+  const positiveDistancesSolution = positiveDistances.distances.map((data, index) => ({
+    id: `D${index + 1}+`,
+    value: roundNumber(data),
+  }))
+
+  const negativeDistancesSolution = negativeDistances.distances.map((data, index) => ({
+    id: `D${index + 1}-`,
+    value: roundNumber(data),
+  }))
+
+  // sort preference values by highest value first (descending) and add rank
+  const preferenceValues = preferenceValuesSolution.sort((a, b) => b.preferenceValues - a.preferenceValues).map((data, index) => ({
+    id: data.id,
+    name: data.name,
+    preferenceValues: roundNumber(data.preferenceValues),
+    rank: index + 1,
+  }))
+
   return {
     normalizedData,
     criteriaWeights,
     weightedMatrix,
     positiveIdealSolution,
     negativeIdealSolution,
-    positiveDistances,
-    negativeDistances,
+    positiveDistancesSolution,
+    negativeDistancesSolution,
     preferenceValues,
   }
 }

@@ -1,20 +1,20 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { WeightedMatrix } from "@/types";
 import { DataTable } from "@/components/ui/data-table";
-import { CreateWeightedColumns } from "@/components/topsis/weighted-columns";
+import { CreateDistanceColumns } from "@/components/topsis/distance-columns";
+import { PreferenceValuesType } from "@/types";
+import { columns } from "@/components/topsis/preference-values-columns";
 
-interface NormalizedProps {
-  data: WeightedMatrix[] | undefined;
+interface PreferenceValuesProps {
+  data: PreferenceValuesType[] | undefined;
 }
 
-export function Weighted({ data }: NormalizedProps) {
-  const columns = CreateWeightedColumns({ data });
+export function PreferenceValues({ data }: PreferenceValuesProps) {
   return (
     <Card className="">
       <CardHeader>
-        <CardTitle>Matrix Ternormalisasi Terbobot (Y)</CardTitle>
+        <CardTitle>Nilai Preferensi (V)</CardTitle>
       </CardHeader>
       <CardContent>
         {data && (

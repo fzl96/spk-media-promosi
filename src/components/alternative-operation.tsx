@@ -132,6 +132,7 @@ export function AlternativeOperation({
                   setShowDeleteAlert(false);
                   router.refresh();
                 }
+                setIsDeleteLoading(false);
               }}
               className="bg-red-600 focus:ring-red-600"
             >

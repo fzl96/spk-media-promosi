@@ -1,12 +1,13 @@
 "use client";
 
+import { roundNumber } from "@/lib/topsis";
 import { IdealValueId } from "@/types";
 
-interface PositiveIdealTableProps {
+interface IdealValueProps {
   data: IdealValueId[] | undefined;
 }
 
-export default function PositiveIdealTable({ data }: PositiveIdealTableProps) {
+export function IdealValueTable({ data }: IdealValueProps) {
   const columns = data
     ?.sort((a, b) => {
       const numA = parseInt(a.id.slice(1));
@@ -39,7 +40,7 @@ export default function PositiveIdealTable({ data }: PositiveIdealTableProps) {
                     className="text-left md:text-center px-[15px]"
                     key={column}
                   >
-                    {value}
+                    {roundNumber(value ?? 0)}
                   </td>
                 );
               })}

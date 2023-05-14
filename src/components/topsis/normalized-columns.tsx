@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { Alternative } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
+import { roundNumber } from "@/lib/topsis";
 
 interface CreateNormalizedColumnsProps {
   data: Alternative[] | undefined;
@@ -55,7 +56,7 @@ export function CreateNormalizedColumns({
           const evaluation = row.original.evaluation.find(
             (e: any) => e.criteriaId === column.criteriaId
           );
-          return <span>{evaluation.nilai}</span>;
+          return <span>{roundNumber(evaluation.nilai)}</span>;
         },
       };
     }),

@@ -68,8 +68,8 @@ export interface Evaluation {
     criteriaId: string;
     criteriaName: string;
     criteriaWeight: number;
-    criteriaCode: string;
     criteriaType: string;
+    criteriaCode: string;
     nilai: number;
   }
   
@@ -101,4 +101,11 @@ export interface IdealValueId {
   id: string;
   name: string;
   idealValue: number;
+}
+
+export interface PreferenceValuesType {
+  id: string;
+  name: string;
+  preferenceValues: number;
+  rank: number;
 }

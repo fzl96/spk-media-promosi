@@ -10,11 +10,11 @@ interface NormalizedProps {
   data: IdealValueId[] | undefined;
 }
 
-export function PositiveIdealSolution({ data }: NormalizedProps) {
+export function NegativeIdealSolution({ data }: NormalizedProps) {
   return (
     <Card className="">
       <CardHeader>
-        <CardTitle>Solusi Ideal Positif (A+)</CardTitle>
+        <CardTitle>Solusi Ideal Negatif (A-)</CardTitle>
       </CardHeader>
       <CardContent>
         {data && (

@@ -111,6 +111,8 @@ export function CriteriaOperation({ criteria }: CriteriaOperationProps) {
                   setShowDeleteAlert(false);
                   router.refresh();
                 }
+
+                setIsDeleteLoading(false);
               }}
               className="bg-red-600 focus:ring-red-600"
             >

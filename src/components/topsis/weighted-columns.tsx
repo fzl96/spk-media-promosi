@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { WeightedMatrix } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
+import { roundNumber } from "@/lib/topsis";
 
 interface CreateWeightedColumns {
   data: WeightedMatrix[] | undefined;
@@ -53,7 +54,7 @@ export function CreateWeightedColumns({ data }: CreateWeightedColumns) {
           const weighted = row.original.weightedMatrix.find(
             (e: any) => e.criteriaId === column.criteriaId
           );
-          return <span>{weighted.weightedValue}</span>;
+          return <span>{roundNumber(weighted.weightedValue)}</span>;
         },
       };
     }),

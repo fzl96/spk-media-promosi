@@ -22,12 +22,12 @@ export function Normalized({ data }: NormalizedProps) {
   return (
     <Card className="">
       <CardHeader>
-        <CardTitle>Matrix Ternormalisasi</CardTitle>
+        <CardTitle>Matrix Ternormalisasi (R)</CardTitle>
       </CardHeader>
       <CardContent>
         {data && (
           <div>
-            <DataTable columns={columns} data={data} />
+            <DataTable columns={columns} data={data} selectable={false} />
           </div>
         )}
       </CardContent>
