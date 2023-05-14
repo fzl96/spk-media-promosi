@@ -35,7 +35,7 @@ import {
 
 export type Icon = LucideIcon;
 
-export const Icons = {
+export const Icons: any = {
   dashboard: Grip,
   delete: Trash2,
   edit: Edit,
