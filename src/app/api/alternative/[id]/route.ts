@@ -44,7 +44,8 @@ export async function DELETE(req: Request,
     }
 }
 
-export async function GET({ params }: { params: { id: string } }) {
+export async function GET(req: Request,
+  { params }: { params: { id: string } } ) {
   const { id } = params;
   try {
     const alternative = await db.alternative.findUnique({
