@@ -25,7 +25,11 @@ export function Normalized({ data }: NormalizedProps) {
         <CardTitle>Matrix Ternormalisasi</CardTitle>
       </CardHeader>
       <CardContent>
-        {data && <div>{/* <DataTable columns={columns} data={data} /> */}</div>}
+        {data && (
+          <div>
+            <DataTable columns={columns} data={data} />
+          </div>
+        )}
       </CardContent>
     </Card>
   );

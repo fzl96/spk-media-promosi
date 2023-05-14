@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -8,15 +10,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
@@ -31,7 +24,6 @@ import { toast } from "@/components/ui/use-toast";
 import { Icons } from "@/components/icons";
 import { useRouter } from "next/navigation";
 import React from "react";
-import Link from "next/link";
 import { Criteria } from "@prisma/client";
 import { CriteriaUpdateForm } from "./criteria-update-form";
 import { CheckCircle } from "lucide-react";
@@ -83,32 +75,26 @@ export function CriteriaOperation({ criteria }: CriteriaOperationProps) {
           <CriteriaUpdateForm setOpen={setOpen} criteria={criteria} />
         </DialogContent>
       </Dialog>
-      <DropdownMenu>
-        <DropdownMenuTrigger className="flex h-8 w-8 items-center justify-center rounded-md border transition-colors hover:bg-muted">
-          <Icons.ellipsis className="h-4 w-4" />
-          <span className="sr-only">Open</span>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem>
-            <button onClick={() => setOpen(true)}>Edit Kriteria</button>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            className="flex cursor-pointer items-center text-destructive focus:text-destructive"
-            onSelect={() => setShowDeleteAlert(true)}
-          >
-            Delete
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <div className="flex gap-2">
+        <Button onClick={() => setOpen(true)} variant="secondary" size="sm">
+          <Icons.edit className="h-4 w-4" />
+        </Button>
+        <Button
+          onClick={() => setShowDeleteAlert(true)}
+          className="bg-[#fbdddd] text-[#e96b6c] hover:bg-red-400 hover:text-white"
+          size="sm"
+        >
+          <Icons.delete className="h-4 w-4" />
+        </Button>
+      </div>
       <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to delete this post?
+              Apakah anda yakin ingin menghapus ?
             </AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone.
+              Aksi ini tidak bisa diurungkan.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

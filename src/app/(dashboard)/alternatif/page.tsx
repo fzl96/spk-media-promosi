@@ -50,19 +50,17 @@ export default async function AlternatifPage() {
   console.log(alternative);
 
   return (
-    <DashboardShell>
+    <div className="flex flex-col gap-5 overlfow-x-hidden max-w-full">
       <DashboardHeader heading="Alternatif">
         <Suspense fallback={<h1>Loading...</h1>}>
           <AlternativeCreateButton criteria={criteria} />
         </Suspense>
       </DashboardHeader>
-      <div className="px-5">
-        <AlternativeTable
-          criteria={criteria}
-          data={alternative}
-          deleteEndpoint="/api/alternative"
-        />
-      </div>
-    </DashboardShell>
+      <AlternativeTable
+        criteria={criteria}
+        data={alternative}
+        deleteEndpoint="/api/alternative"
+      />
+    </div>
   );
 }

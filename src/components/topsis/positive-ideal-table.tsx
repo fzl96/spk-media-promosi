@@ -18,30 +18,35 @@ export default function PositiveIdealTable({ data }: PositiveIdealTableProps) {
 
   return (
     <div className="border rounded p-2 ">
-      <table className="w-full text-sm">
-        <thead>
-          <tr>
-            {columns?.map((column) => (
-              <th key={column}>{column}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            {columns?.map((column) => {
-              const value = data?.find(
-                (item) => item.id === column
-              )?.idealValue;
+      <div className="max-w-full overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr>
+              {columns?.map((column) => (
+                <th key={column}>{column}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {columns?.map((column) => {
+                const value = data?.find(
+                  (item) => item.id === column
+                )?.idealValue;
 
-              return (
-                <td className="text-center" key={column}>
-                  {value}
-                </td>
-              );
-            })}
-          </tr>
-        </tbody>
-      </table>
+                return (
+                  <td
+                    className="text-left md:text-center px-[15px]"
+                    key={column}
+                  >
+                    {value}
+                  </td>
+                );
+              })}
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

@@ -28,6 +28,8 @@ import {
   BarChart3,
   Server,
   Grip,
+  Trash2,
+  Edit,
   type Icon as LucideIcon,
 } from "lucide-react";
 
@@ -35,6 +37,8 @@ export type Icon = LucideIcon;
 
 export const Icons = {
   dashboard: Grip,
+  delete: Trash2,
+  edit: Edit,
   criteria: List,
   alternative: FileTextIcon,
   scores: BarChart3,
@@ -58,6 +62,7 @@ export const Icons = {
   pizza: Pizza,
   sun: SunMedium,
   moon: Moon,
+
   laptop: Laptop,
   gitHub: ({ ...props }: LucideProps) => (
     <svg

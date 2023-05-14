@@ -14,17 +14,17 @@ interface NormalizedProps {
 export function PositiveIdealSolution({ data }: NormalizedProps) {
   const columns = CreatePositiveIdealColumns({ data });
   return (
-    // <Card className="">
-    //   <CardHeader>
-    //     <CardTitle>Solusi Ideal Positif (A+)</CardTitle>
-    //   </CardHeader>
-    //   <CardContent>
-    //     {data && (
-    <div className="max-w-full overflow-x-auto">
-      <PositiveIdealTable data={data} />
-    </div>
-    //     )}
-    //   </CardContent>
-    // </Card>
+    <Card className="">
+      <CardHeader>
+        <CardTitle>Solusi Ideal Positif (A+)</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {data && (
+          <div className="">
+            <PositiveIdealTable data={data} />
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 }

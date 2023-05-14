@@ -39,13 +39,11 @@ export default async function PenilaianPage() {
   const results = getTopsis(data);
 
   return (
-    <DashboardShell>
+    <div className="flex flex-col gap-5 overlfow-x-hidden max-w-full">
       <DashboardHeader heading="Penilaian" />
       <Normalized data={results?.normalizedData} />
-      {/* <Weighted data={results?.weightedMatrix} /> */}
+      <Weighted data={results?.weightedMatrix} />
       <PositiveIdealSolution data={results?.positiveIdealSolution} />
-
-      <pre>{JSON.stringify(results?.positiveIdealSolution, null, 2)}</pre>
-    </DashboardShell>
+    </div>
   );
 }

@@ -16,13 +16,11 @@ export default async function CriteriaPage() {
   });
   const data: Criteria[] = await res.json();
   return (
-    <div className="flex flex-col gap-5 overlfow-x-hidden">
+    <div className="flex flex-col gap-5 overlfow-x-hidden max-w-full">
       <DashboardHeader heading="Kriteria">
         <CreateButton />
       </DashboardHeader>
-      {/* <div className="px-5 max-w-full overflow-x-auto"> */}
       <DataTable columns={columns} data={data} deleteEndpoint="/api/criteria" />
-      {/* </div> */}
     </div>
   );
 }

@@ -113,6 +113,7 @@ export function DataTable<TData extends WithId, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={() => console.log(row)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -136,7 +137,7 @@ export function DataTable<TData extends WithId, TValue>({
             )}
           </TableBody>
         </Table>
-        {/* </div>{" "}
+      </div>{" "}
       <div className="flex items-center justify-between space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground items-center">
           <div className="flex gap-2 items-center">
@@ -237,7 +238,7 @@ export function DataTable<TData extends WithId, TValue>({
           disabled={!table.getCanNextPage()}
         >
           Next
-        </Button> */}
+        </Button>
       </div>
     </>
   );
