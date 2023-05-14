@@ -86,8 +86,8 @@ export function DataTable<TData extends WithId, TValue>({
   });
 
   return (
-    <div>
-      <div className="rounded-md border">
+    <>
+      <div className="rounded-md border max-w-full overflow-x-auto">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -136,7 +136,7 @@ export function DataTable<TData extends WithId, TValue>({
             )}
           </TableBody>
         </Table>
-      </div>{" "}
+        {/* </div>{" "}
       <div className="flex items-center justify-between space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground items-center">
           <div className="flex gap-2 items-center">
@@ -237,8 +237,8 @@ export function DataTable<TData extends WithId, TValue>({
           disabled={!table.getCanNextPage()}
         >
           Next
-        </Button>
+        </Button> */}
       </div>
-    </div>
+    </>
   );
 }
