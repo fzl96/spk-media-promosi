@@ -1,6 +1,8 @@
 import { db } from "@/lib/db"
 import { NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 
 interface Evaluation {
@@ -16,6 +18,11 @@ interface Alternative {
 export async function DELETE(req: Request,
   { params }: { params: { id: string } }
   ) {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+    }
     const { id } = params;
     try {
       const evaluation = db.evaluation.deleteMany({
@@ -46,6 +53,12 @@ export async function DELETE(req: Request,
 
 export async function GET(req: Request,
   { params }: { params: { id: string } } ) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+  }
+
   const { id } = params;
   try {
     const alternative = await db.alternative.findUnique({
@@ -90,6 +103,12 @@ export async function GET(req: Request,
 export async function PATCH(req: Request,
   { params }: { params: { id: string } }
   ) {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+    }
+    
     const { id } = params;
 
     try {

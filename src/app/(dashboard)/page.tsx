@@ -28,6 +28,9 @@ async function getAlternative() {
 
 export default async function Home() {
   const data: Alternative[] = await getAlternative();
+
+  if (!data) return <h1>No data...</h1>;
+
   const results = getTopsis(data);
   const resultsSAW = getSAW(data);
 
@@ -42,11 +45,15 @@ export default async function Home() {
         </CardHeader>
         <CardContent>
           <div>
-            <DataTable
-              columns={columns}
-              data={results?.preferenceValues as PreferenceValuesType[]}
-              selectable={false}
-            />
+            {results && results.preferenceValues ? (
+              <DataTable
+                columns={columns}
+                data={results?.preferenceValues as PreferenceValuesType[]}
+                selectable={false}
+              />
+            ) : (
+              <h1>Tidak ada data</h1>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -59,11 +66,15 @@ export default async function Home() {
         </CardHeader>
         <CardContent>
           <div>
-            <DataTable
-              columns={SAWColumns}
-              data={resultsSAW?.rankedAlternative as RankedAlternative[]}
-              selectable={false}
-            />
+            {resultsSAW && resultsSAW.rankedAlternative ? (
+              <DataTable
+                columns={SAWColumns}
+                data={resultsSAW?.rankedAlternative as RankedAlternative[]}
+                selectable={false}
+              />
+            ) : (
+              <h1>Tidak ada data</h1>
+            )}
           </div>
         </CardContent>
       </Card>

@@ -126,6 +126,11 @@ function getRank(sumPreferenceValue: { id: string; name: string; sumPreferenceVa
 }
 
 export function getSAW(data: Alternative[]){
+
+  if (data.length === 0) {
+    return null
+  }
+
   const criteriaWeights = getCriteriaWeights(data);
   const normalizationFactors = calculateNormalizationFactors(data);
   const normalizedMatrix = getNormalizedMatrix(data, normalizationFactors);

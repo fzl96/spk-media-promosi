@@ -18,17 +18,19 @@ import { AlternativeCreateForm } from "./alternative-create-form";
 
 interface AlternativeCreateButtonProps {
   criteria: Criteria[];
+  disabled: boolean;
 }
 
 export function AlternativeCreateButton({
   criteria,
+  disabled,
 }: AlternativeCreateButtonProps) {
   const [open, setOpen] = React.useState(false);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button onClick={() => setOpen(true)}>
+        <Button onClick={() => setOpen(true)} disabled={disabled}>
           <Icons.add className="w-4 h-4 mr-2" />
           Tambah Alternatif
         </Button>

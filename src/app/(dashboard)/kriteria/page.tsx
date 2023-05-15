@@ -15,6 +15,7 @@ export default async function CriteriaPage() {
     cache: "no-store",
   });
   const data: Criteria[] = await res.json();
+
   return (
     <div className="flex flex-col gap-5 overlfow-x-hidden max-w-full">
       <DashboardHeader heading="Kriteria">

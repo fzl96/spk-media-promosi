@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NormalizedSAW } from "@/components/saw/normalized-saw";
 import { PreferenceMatrix } from "@/components/saw/preference-matrix";
 import { RankedAlternative } from "@/components/saw/ranked-alternative";
+import { NoDataCard } from "@/components/no-data-card";
 
 export const metadata = {
   title: "Penilaian",
@@ -41,27 +42,37 @@ export default async function PenilaianPage() {
           <TabsTrigger value="saw">SAW</TabsTrigger>
         </TabsList>
         <TabsContent value="topsis">
-          <div className="flex flex-col gap-5">
-            <Normalized data={results?.normalizedData} />
-            <Weighted data={results?.weightedMatrix} />
-            <PositiveIdealSolution data={results?.positiveIdealSolution} />
-            <NegativeIdealSolution data={results?.negativeIdealSolution} />
-            <Distance
-              positiveDistanceData={results?.positiveDistancesSolution}
-              negativeDistanceData={results?.negativeDistancesSolution}
-            />
-            <PreferenceValues data={results?.preferenceValues} />
-            <pre>
-              <code>{JSON.stringify(results?.preferenceValues, null, 2)}</code>
-            </pre>
-          </div>
+          {results ? (
+            <div className="flex flex-col gap-5">
+              <Normalized data={results?.normalizedData} />
+              <Weighted data={results?.weightedMatrix} />
+              <PositiveIdealSolution data={results?.positiveIdealSolution} />
+              <NegativeIdealSolution data={results?.negativeIdealSolution} />
+              <Distance
+                positiveDistanceData={results?.positiveDistancesSolution}
+                negativeDistanceData={results?.negativeDistancesSolution}
+              />
+              <PreferenceValues data={results?.preferenceValues} />
+              <pre>
+                <code>
+                  {JSON.stringify(results?.preferenceValues, null, 2)}
+                </code>
+              </pre>
+            </div>
+          ) : (
+            <NoDataCard />
+          )}
         </TabsContent>
         <TabsContent value="saw">
-          <div className="flex flex-col gap-5">
-            <NormalizedSAW data={resultsSAW?.normalizedMatrix} />
-            <PreferenceMatrix data={resultsSAW?.preferenceMatrix} />
-            <RankedAlternative data={resultsSAW?.rankedAlternative} />
-          </div>
+          {resultsSAW ? (
+            <div className="flex flex-col gap-5">
+              <NormalizedSAW data={resultsSAW?.normalizedMatrix} />
+              <PreferenceMatrix data={resultsSAW?.preferenceMatrix} />
+              <RankedAlternative data={resultsSAW?.rankedAlternative} />
+            </div>
+          ) : (
+            <NoDataCard />
+          )}
         </TabsContent>
       </Tabs>
     </div>
