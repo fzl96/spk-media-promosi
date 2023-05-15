@@ -53,11 +53,6 @@ export default async function PenilaianPage() {
                 negativeDistanceData={results?.negativeDistancesSolution}
               />
               <PreferenceValues data={results?.preferenceValues} />
-              <pre>
-                <code>
-                  {JSON.stringify(results?.preferenceValues, null, 2)}
-                </code>
-              </pre>
             </div>
           ) : (
             <NoDataCard />
