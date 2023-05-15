@@ -109,3 +109,36 @@ export interface PreferenceValuesType {
   preferenceValues: number;
   rank: number;
 }
+
+export interface NormalizedMatrixSAW{
+  id: string;
+  name: string;
+  evaluation: {
+      criteriaId: string;
+      criteriaCode: string;
+      criteriaName: string;
+      criteriaType: string;
+      criteriaWeight: number;
+      normalizedValue: number;
+  }[];
+}
+
+export interface PreferenceMatrixSAW {
+  id: string;
+  name: string;
+  preferenceValues: {
+      criteriaId: string;
+      criteriaCode: string;
+      criteriaName: string;
+      criteriaType: string;
+      criteriaWeight: number;
+      preferenceValue: number;
+  }[];
+}
+
+export interface RankedAlternative {
+  id: string;
+  name: string;
+  value: number;
+  rank: number;
+}

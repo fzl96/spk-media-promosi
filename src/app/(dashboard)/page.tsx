@@ -1,8 +1,5 @@
-import { DashboardHeader } from "@/components/header";
-import { DashboardShell } from "@/components/shell";
-import { ToastSimple } from "@/components/test-toast";
 import { getTopsis } from "@/lib/topsis";
-import { Alternative, PreferenceValuesType } from "@/types";
+import { Alternative, PreferenceValuesType, RankedAlternative } from "@/types";
 import {
   Card,
   CardContent,
@@ -13,6 +10,8 @@ import {
 } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
 import { columns } from "@/components/topsis/preference-values-columns";
+import { columns as SAWColumns } from "@/components/saw/ranked-alternative-columns";
+import { getSAW } from "@/lib/saw";
 
 export const metadata = {
   title: "Dashboard",
@@ -30,6 +29,7 @@ async function getAlternative() {
 export default async function Home() {
   const data: Alternative[] = await getAlternative();
   const results = getTopsis(data);
+  const resultsSAW = getSAW(data);
 
   return (
     <div className="flex flex-col gap-5 overlfow-x-hidden max-w-full">
@@ -45,6 +45,23 @@ export default async function Home() {
             <DataTable
               columns={columns}
               data={results?.preferenceValues as PreferenceValuesType[]}
+              selectable={false}
+            />
+          </div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Metode SAW</CardTitle>
+          <CardDescription>
+            Hasil perhitungan menggunakan metode SAW
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div>
+            <DataTable
+              columns={SAWColumns}
+              data={resultsSAW?.rankedAlternative as RankedAlternative[]}
               selectable={false}
             />
           </div>

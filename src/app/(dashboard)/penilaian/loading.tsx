@@ -1,11 +1,11 @@
 import { DashboardHeader } from "@/components/header";
-import { DashboardShell } from "@/components/shell";
+import { TableSkeleton } from "@/components/table-skeleton";
 
 export default function PenilaianLoading() {
   return (
-    <DashboardShell>
+    <div className="flex flex-col gap-5 overlfow-x-hidden max-w-full">
       <DashboardHeader heading="Penilaian" />
-      <div>Loading...</div>
-    </DashboardShell>
+      <TableSkeleton />
+    </div>
   );
 }
