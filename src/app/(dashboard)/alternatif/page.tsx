@@ -29,6 +29,10 @@ interface Alternative {
 async function getCriteria() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/criteria`, {
     cache: "no-store",
+    headers: {
+      "Content-Type": "application/json",
+      credentials: "include",
+    },
   });
   const data: Criteria[] = await res.json();
   return data;

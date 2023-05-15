@@ -1,6 +1,3 @@
-// import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { z } from 'zod';
@@ -22,11 +19,6 @@ const criteriaSchema = z.object({
 
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions);
-
-    if (!session) {
-      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
-    }
 
     const criteria = await db.criteria.findMany();
 
@@ -39,12 +31,6 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
-
-    if (!session) {
-      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
-    }
-
     const data: Criteria = await req.json();
     const validatedData = criteriaSchema.parse(data);
 

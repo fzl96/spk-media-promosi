@@ -334,7 +334,7 @@ export function roundNumber(num: number): number {
 }
 
 export function getTopsis(data: Alternative[]) {
-  if (data.length === 0) {
+  if (data.length === 0 || !data) {
     return null;
   }
   

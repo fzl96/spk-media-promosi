@@ -1,18 +1,10 @@
 import { db } from "@/lib/db"
 import { NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
-import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
 
 export async function DELETE(req: Request,
   { params }: { params: { id: string } }
   ) {
-    const session = await getServerSession(authOptions);
-
-    if (!session) {
-      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
-    }
-
     const { id } = params;
     try {
       const criteria = await db.criteria.delete({
@@ -33,12 +25,6 @@ export async function DELETE(req: Request,
 
 export async function GET(req: Request,
   { params }: { params: { id: string } }) {
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
-  }
-
   const { id } = params;
   try {
     const criteria = await db.criteria.findUnique({
@@ -53,12 +39,6 @@ export async function GET(req: Request,
 export async function PATCH(req: Request,
   { params }: { params: { id: string } }
   ) {
-    const session = await getServerSession(authOptions);
-
-    if (!session) {
-      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
-    }
-    
     const { id } = params;
     try {
       const data = await req.json();
