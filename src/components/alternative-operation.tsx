@@ -84,8 +84,8 @@ export function AlternativeOperation({
           <DialogHeader>
             <DialogTitle>Edit Alternative</DialogTitle>
             <DialogDescription>
-              Edit alternative dengan mengisi kode, nama, bobot, dan jenis
-              kriteria. Klik save untuk menyimpan.
+              Edit alternatif dengan mengisi data-data kriteria. Klik save untuk
+              menyimpan.
             </DialogDescription>
           </DialogHeader>
           <AlternativeUpdateForm
