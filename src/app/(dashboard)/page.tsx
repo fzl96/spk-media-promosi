@@ -12,6 +12,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { columns } from "@/components/topsis/preference-values-columns";
 import { columns as SAWColumns } from "@/components/saw/ranked-alternative-columns";
 import { getSAW } from "@/lib/saw";
+import { Dashboard } from "@/components/dashboard";
 
 export const metadata = {
   title: "Dashboard",
@@ -34,54 +35,5 @@ export default async function Home() {
   const results = getTopsis(data);
   const resultsSAW = getSAW(data);
 
-  return (
-    <div className="flex flex-col md:flex-row gap-5 overlfow-x-hidden max-w-full">
-      <div className="w-full">
-        <Card>
-          <CardHeader>
-            <CardTitle>Metode TOPSIS</CardTitle>
-            <CardDescription>
-              Hasil perhitungan menggunakan metode TOPSIS
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div>
-              {results && results.preferenceValues ? (
-                <DataTable
-                  columns={columns}
-                  data={results?.preferenceValues as PreferenceValuesType[]}
-                  selectable={false}
-                />
-              ) : (
-                <h1>Tidak ada data</h1>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-      <div className="w-full">
-        <Card>
-          <CardHeader>
-            <CardTitle>Metode SAW</CardTitle>
-            <CardDescription>
-              Hasil perhitungan menggunakan metode SAW
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div>
-              {resultsSAW && resultsSAW.rankedAlternative ? (
-                <DataTable
-                  columns={SAWColumns}
-                  data={resultsSAW?.rankedAlternative as RankedAlternative[]}
-                  selectable={false}
-                />
-              ) : (
-                <h1>Tidak ada data</h1>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
+  return <Dashboard results={results} resultsSAW={resultsSAW} />;
 }

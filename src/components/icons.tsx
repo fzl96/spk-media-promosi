@@ -31,11 +31,13 @@ import {
   Trash2,
   Edit,
   type Icon as LucideIcon,
+  Cat,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
 
 export const Icons: any = {
+  cat: Cat,
   dashboard: Grip,
   delete: Trash2,
   edit: Edit,
